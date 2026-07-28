@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: dodo-devsecops
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/Pranavshinde-sa/dodo-devsecops-assignment.git
+    targetRevision: main
+    path: task-1/deploy
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: dodo-devsecops
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+
+    syncOptions:
+      - CreateNamespace=true
