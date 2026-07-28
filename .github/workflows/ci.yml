@@ -26,4 +26,4 @@ jobs:
 
   trivy:
     name: Dependency scan
-    uses: ./.github/workflows/trivy.yml
+    uses: ./.github/workflows/dependency-scan.yml
