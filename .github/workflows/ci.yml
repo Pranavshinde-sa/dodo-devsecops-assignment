@@ -14,6 +14,7 @@ on:
 
 permissions:
   contents: read
+  packages: write
 
 jobs:
   semgrep:
@@ -32,4 +33,7 @@ jobs:
     name: Docker image scan
     uses: ./.github/workflows/image-scan.yml
 
+  build-push:
+    name: Build and push to GHCR
+    uses: ./.github/workflows/build-push.yml
   
