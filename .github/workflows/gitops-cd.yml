@@ -1,0 +1,38 @@
+name: GitOps CD
+
+on:
+  workflow_call:
+
+permissions:
+  contents: write
+
+jobs:
+  update-manifest:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Lowercase Repository
+        id: repo
+        run: echo "repo=${GITHUB_REPOSITORY,,}" >> $GITHUB_OUTPUT
+
+      - name: Update Image
+        run: |
+          IMAGE="ghcr.io/${{ steps.repo.outputs.repo }}:${{ github.sha }}"
+          sed -i "s|image: .*|image: ${IMAGE}|g" task-1/deploy/deployment.yaml
+
+      - name: Commit Changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add task-1/deploy/deployment.yaml
+
+          if git diff --cached --quiet; then
+            echo "No changes"
+            exit 0
+          fi
+
+          git commit -m "chore(gitops): deploy ${GITHUB_SHA}"
+          git push origin main

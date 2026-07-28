@@ -1,4 +1,4 @@
-name: Secure CI Pipeline
+name: Devsecops Pipeline
 
 on:
   push:
@@ -53,4 +53,11 @@ jobs:
     uses: ./.github/workflows/slsa.yml
     with:
       digest: ${{ needs.build-push.outputs.digest }}
-  
+
+  gitops-cd:
+    needs:
+      - build-push
+      - cosign
+      - slsa
+    uses: ./.github/workflows/gitops-cd.yml
+    
