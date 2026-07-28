@@ -21,8 +21,15 @@ spec:
           imagePullPolicy: IfNotPresent
           env:
             - name: STRIPE_API_KEY
-              value: "sk_live_9f3a2b7c1e4d8REDACTED"
+              valueFrom:
+                secretKeyRef:
+                  name: ledger-api-secret
+                  key: STRIPE_API_KEY
+    
             - name: DB_PASSWORD
-              value: "P@ssw0rd123"
+              valueFrom: 
+                secretKeyRef:
+                  name: ledger-api-secret
+                  key: DB_PASSWORD
           ports:
             - containerPort: 8080
