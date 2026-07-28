@@ -13,6 +13,12 @@ spec:
           - resources:
               kinds:
                 - Pod
+      exclude:
+        any:
+          - resources:
+              namespaces:
+                - ingress-nginx
+                - kube-system
 
       validate:
         message: "Containers must run as a non-root user."
