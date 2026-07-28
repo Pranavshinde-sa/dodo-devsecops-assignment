@@ -28,6 +28,22 @@ spec:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
 
+            capabilities:
+              drop:
+                - ALL
+
+            seccompProfile:
+              type: RuntimeDefault
+
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
+
+
           env:
             - name: STRIPE_API_KEY
               valueFrom:
@@ -61,3 +77,5 @@ spec:
             periodSeconds: 20
             timeoutSeconds: 2
             failureThreshold: 3
+
+
