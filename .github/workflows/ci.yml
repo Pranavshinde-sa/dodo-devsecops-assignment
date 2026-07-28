@@ -24,6 +24,12 @@ jobs:
     name: Gitleaks Scan
     uses: ./.github/workflows/gitleaks.yml
 
-  trivy:
+  dependency:
     name: Dependency scan
     uses: ./.github/workflows/dependency-scan.yml
+
+  trivy-image:
+    name: Docker image scan
+    uses: ./.github/workflows/image-scan.yml
+
+  
