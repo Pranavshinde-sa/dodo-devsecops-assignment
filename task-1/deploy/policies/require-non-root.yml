@@ -19,6 +19,7 @@ spec:
               namespaces:
                 - ingress-nginx
                 - kube-system
+                - argocd
 
       validate:
         message: "Containers must run as a non-root user."
