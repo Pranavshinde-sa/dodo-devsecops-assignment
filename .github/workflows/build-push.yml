@@ -2,6 +2,10 @@ name: Build & Push Image
 
 on:
   workflow_call:
+    outputs:
+      digest:
+        description: Image digest
+        value: ${{ jobs.build-push.outputs.digest }}   
 
 permissions:
   contents: read
@@ -9,6 +13,8 @@ permissions:
 
 jobs:
   build-push:
+    outputs:
+      digest: ${{ steps.build.outputs.digest }}
     runs-on: ubuntu-latest
 
     steps:
@@ -27,6 +33,7 @@ jobs:
         run: echo "repo=${GITHUB_REPOSITORY,,}" >> $GITHUB_OUTPUT
 
       - name: Build and Push Image
+        id: build
         uses: docker/build-push-action@v6
         with:
           context: ./app

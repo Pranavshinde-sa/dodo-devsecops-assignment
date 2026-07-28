@@ -15,6 +15,7 @@ on:
 permissions:
   contents: read
   packages: write
+  id-token: write
 
 jobs:
   semgrep:
@@ -36,4 +37,11 @@ jobs:
   build-push:
     name: Build and push to GHCR
     uses: ./.github/workflows/build-push.yml
+
+  cosign:
+    name: Cosign image signing
+    needs: build-push
+    uses: ./.github/workflows/cosign.yml
+    with:
+      digest: ${{ needs.build-push.outputs.digest }}
   
