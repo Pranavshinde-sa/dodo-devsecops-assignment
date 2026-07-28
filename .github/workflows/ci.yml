@@ -23,3 +23,7 @@ jobs:
   gitleaks:
     name: Gitleaks Scan
     uses: ./.github/workflows/gitleaks.yml
+
+  trivy:
+    name: Dependency scan
+    uses: ./.github/workflows/trivy.yml
