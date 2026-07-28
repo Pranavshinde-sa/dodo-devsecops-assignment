@@ -19,3 +19,7 @@ jobs:
   semgrep:
     name: Semgrep Scan
     uses: ./.github/workflows/semgrep.yml
+
+  gitleaks:
+    name: Gitleaks Scan
+    uses: ./.github/workflows/gitleaks.yml
