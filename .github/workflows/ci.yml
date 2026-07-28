@@ -1,0 +1,21 @@
+name: Secure CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - task2-secure-cicd-supply-chain
+
+  pull_request:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  semgrep:
+    name: Semgrep Scan
+    uses: ./.github/workflows/semgrep.yml

@@ -1,0 +1,22 @@
+name: Semgrep scan 
+
+on: 
+  workflow_call
+
+permissions:
+  contents: read
+
+
+jobs:
+  semgrep:
+    runs-on: ubuntu-latest
+
+    container:
+      image: semgrep/semgrep:latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Run Semgrep Scan
+        run: semgrep scan --config auto --error
