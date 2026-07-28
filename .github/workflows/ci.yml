@@ -13,6 +13,8 @@ on:
   workflow_dispatch:
 
 permissions:
+  actions: read
+  attestations: write
   contents: read
   packages: write
   id-token: write
@@ -42,6 +44,13 @@ jobs:
     name: Cosign image signing
     needs: build-push
     uses: ./.github/workflows/cosign.yml
+    with:
+      digest: ${{ needs.build-push.outputs.digest }}
+
+  slsa:
+    name: Generate SLSA Provenance
+    needs: build-push
+    uses: ./.github/workflows/slsa.yml
     with:
       digest: ${{ needs.build-push.outputs.digest }}
   

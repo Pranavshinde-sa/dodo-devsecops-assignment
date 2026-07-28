@@ -1,0 +1,42 @@
+name: Generate SLSA Provenance
+
+on:
+  workflow_call:
+    inputs:
+      digest:
+        description: Image digest
+        required: true
+        type: string
+
+permissions:
+  actions: read
+  contents: read
+  packages: write
+  id-token: write
+  attestations: write
+
+jobs:
+  provenance:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v5
+
+      - name: Convert Repository Name to Lowercase
+        id: repo
+        run: echo "repo=${GITHUB_REPOSITORY,,}" >> $GITHUB_OUTPUT
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate SLSA Provenance
+        uses: actions/attest-build-provenance@v3
+        with:
+          subject-name: ghcr.io/${{ steps.repo.outputs.repo }}
+          subject-digest: ${{ inputs.digest }}
+          push-to-registry: true
