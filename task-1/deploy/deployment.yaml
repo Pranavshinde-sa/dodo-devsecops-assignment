@@ -15,6 +15,8 @@ spec:
       labels:
         app: ledger-api
     spec:
+      serviceAccountName: ledger-api
+
       containers:
         - name: ledger-api
           image: ledger-api:starter
