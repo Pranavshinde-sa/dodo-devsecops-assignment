@@ -43,6 +43,10 @@ spec:
               cpu: "500m"
               memory: "256Mi"
 
+          envFrom:
+            - configMapRef:
+                name: ledger-api-config
+
 
           env:
             - name: STRIPE_API_KEY
