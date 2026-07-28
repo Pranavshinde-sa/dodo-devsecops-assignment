@@ -19,6 +19,13 @@ spec:
         - name: ledger-api
           image: ledger-api:starter
           imagePullPolicy: IfNotPresent
+
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 10001
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+
           env:
             - name: STRIPE_API_KEY
               valueFrom:
