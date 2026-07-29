@@ -37,6 +37,11 @@ jobs:
     uses: ./.github/workflows/image-scan.yml
 
   build-push:
+    needs:
+      - semgrep
+      - gitleaks
+      - dependency
+      - trivy-image
     name: Build and push to GHCR
     uses: ./.github/workflows/build-push.yml
 
