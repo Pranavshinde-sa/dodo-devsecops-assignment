@@ -38,13 +38,17 @@ jobs:
       - name: Sign image with Cosign
         env:
           COSIGN_YES: "true"
+          IMAGE: ghcr.io/${{ steps.repo.outputs.repo }}@${{ inputs.digest }}
         run: |
-          cosign sign \
-            ghcr.io/${{ steps.repo.outputs.repo }}@${{ inputs.digest }}
+          cosign sign "$IMAGE"
 
       - name: Verify image signature
+        env:
+          IMAGE: ghcr.io/${{ steps.repo.outputs.repo }}@${{ inputs.digest }}
+          CERT_IDENTITY: https://github.com/${{ github.repository }}/.github/workflows/.*
+          CERT_ISSUER: https://token.actions.githubusercontent.com
         run: |
           cosign verify \
-            --certificate-identity-regexp "https://github.com/${{ github.repository }}/.github/workflows/.*" \
-            --certificate-oidc-issuer https://token.actions.githubusercontent.com \
-            ghcr.io/${{ steps.repo.outputs.repo }}@${{ inputs.digest }}
+            --certificate-identity-regexp "$CERT_IDENTITY" \
+            --certificate-oidc-issuer "$CERT_ISSUER" \
+            "$IMAGE"
