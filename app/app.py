@@ -36,7 +36,7 @@ def transactions():
 
 @app.route("/import", methods=["POST"])
 def import_config():
-    config = yaml.load(request.data)
+    config = yaml.safe_load(request.data)
     return jsonify(loaded=str(config))
 
 
