@@ -24,6 +24,9 @@ spec:
       serviceAccountName: reporting
 
       securityContext:
+        runAsNonRoot: true
+
+      securityContext:
         seccompProfile:
           type: RuntimeDefault
           
