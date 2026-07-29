@@ -19,7 +19,7 @@ spec:
 
       containers:
         - name: ledger-api
-          image: ghcr.io/pranavshinde-sa/dodo-devsecops-assignment:cc44518af3a3e47376501fb49b3ead510a94d175
+          image: ghcr.io/pranavshinde-sa/dodo-devsecops-assignment:f5863357afd03e29bb15116b5e6ca0abcbc7b42a
           imagePullPolicy: IfNotPresent
 
           securityContext:
