@@ -7,3 +7,4 @@ metadata:
 data:
   APP_ENV: "production"
   LOG_LEVEL: "info"
+  ALLOWED_HOSTS: "example.com"

@@ -4,11 +4,16 @@ import hashlib
 import requests
 import yaml
 from flask import Flask, request, jsonify
+from urllib.parse import urlparse
 
 app = Flask(__name__)
 
 STRIPE_API_KEY = os.environ.get("STRIPE_API_KEY", "")
 DB_PASSWORD = os.environ.get("DB_PASSWORD", "")
+
+ALLOWED_HOSTS = set(
+    filter(None, os.getenv("ALLOWED_HOSTS", "").split(","))
+)
 
 LEDGER = [
     {"id": "txn_1001", "pan": "4242424242424242", "amount": 4200, "currency": "USD", "status": "captured"},
@@ -43,9 +48,24 @@ def import_config():
 @app.route("/fetch")
 def fetch():
     url = request.args.get("url", "")
-    resp = requests.get(url, timeout=5)
-    return jsonify(status_code=resp.status_code, body=resp.text[:2048])
+    parsed = urlparse(url)
 
+    if parsed.scheme != "https":
+        abort(400, "Only HTTPS URLs are allowed")
+
+    if parsed.hostname not in ALLOWED_HOSTS:
+        abort(403, "Host not allowed")
+
+    resp = requests.get(
+        url,
+        timeout=5,
+        allow_redirects=False
+    )
+
+    return jsonify(
+        status_code=resp.status_code,
+        body=resp.text[:2048]
+    )
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)
