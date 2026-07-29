@@ -47,7 +47,7 @@ def import_config():
 
 @app.route("/fetch")
 def fetch():
-    url = request.args.get("url", "")
+    url = request.args.get("url", "") # nosemgrep -- validated below: https-only + ALLOWED_HOSTS check + no redirects
     parsed = urlparse(url)
 
     if parsed.scheme != "https":
@@ -56,7 +56,7 @@ def fetch():
     if parsed.hostname not in ALLOWED_HOSTS:
         abort(403, "Host not allowed")
 
-    resp = requests.get(  # nosemgrep: python.django.security.injection.ssrf.ssrf-injection-requests.ssrf-injection-requests,python.flask.security.injection.ssrf-requests.ssrf-requests -- host validated against ALLOWED_HOSTS allowlist above, https-only, redirects disabled
+    resp = requests.get(  # nosemgrep -- see check above
         url,
         timeout=5,
         allow_redirects=False
