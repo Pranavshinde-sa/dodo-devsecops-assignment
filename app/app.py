@@ -3,7 +3,7 @@ import hashlib
 
 import requests
 import yaml
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, abort
 from urllib.parse import urlparse
 
 app = Flask(__name__)
@@ -56,7 +56,7 @@ def fetch():
     if parsed.hostname not in ALLOWED_HOSTS:
         abort(403, "Host not allowed")
 
-    resp = requests.get(
+    resp = requests.get(  # nosemgrep: python.django.security.injection.ssrf.ssrf-injection-requests.ssrf-injection-requests,python.flask.security.injection.ssrf-requests.ssrf-requests -- host validated against ALLOWED_HOSTS allowlist above, https-only, redirects disabled
         url,
         timeout=5,
         allow_redirects=False
@@ -68,4 +68,4 @@ def fetch():
     )
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8080)
+    app.run(host="0.0.0.0", port=8080) # nosemgrep: python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host -- required for k8s Service routing; exposure controlled by NetworkPolicy/Ingress at deployment layer
