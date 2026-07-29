@@ -38,8 +38,8 @@ top of `python:3.11-slim`.
 |---|---|---|---|
 | 1. Deploy & Harden the Workload | [`task-1/`](./task-1/README.md) | Hardened `ledger-api` + `reporting` neighbour on a 3-node `kind` cluster: non-root, read-only rootfs, dropped capabilities, seccomp, dedicated RBAC, Sealed Secrets, Kyverno guardrails | ✅ |
 | 2. Secure CI/CD Pipeline & Supply Chain | [`task-2/`](./task-2/README.md) | GitHub Actions pipeline: Semgrep SAST, Trivy dependency + image scans, gitleaks, GHCR build/push, keyless Cosign signing + verification, SLSA provenance attestation, ArgoCD GitOps auto-sync | ✅ |
-| 3. Service Mesh & Zero-Trust (Istio) | `task-3/` | mTLS STRICT, identity-based `AuthorizationPolicy`, defense-in-depth `NetworkPolicy` | 🚧 not started |
-| 4. Recon & Penetration Testing | `task-4/` | Passive OSINT attack-surface report + authorized pentest write-up | 🚧 not started |
+| 3. Service Mesh & Zero-Trust (Istio) | `task-3/` | Not attempted due to time  | ⛔ |
+| 4. Recon & Penetration Testing | `task-4/` | Not attempted due to time plan | ⛔ |
 
 ## Quick start (local, no cloud account required)
 
